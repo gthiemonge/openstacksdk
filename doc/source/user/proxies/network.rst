@@ -367,3 +367,36 @@ Service Provider Operations
 .. autoclass:: openstack.network.v2._proxy.Proxy
 
    .. automethod:: openstack.network.v2._proxy.Proxy.service_providers
+
+SFC Operations
+^^^^^^^^^^^^^^
+
+.. autoclass:: openstack.network.v2._proxy.Proxy
+
+   .. automethod:: openstack.network.v2._proxy.Proxy.create_sfc_port_pair
+   .. automethod:: openstack.network.v2._proxy.Proxy.update_sfc_port_pair
+   .. automethod:: openstack.network.v2._proxy.Proxy.delete_sfc_port_pair
+   .. automethod:: openstack.network.v2._proxy.Proxy.get_sfc_port_pair
+   .. automethod:: openstack.network.v2._proxy.Proxy.find_sfc_port_pair
+   .. automethod:: openstack.network.v2._proxy.Proxy.sfc_port_pairs
+
+   .. automethod:: openstack.network.v2._proxy.Proxy.create_sfc_port_pair_group
+   .. automethod:: openstack.network.v2._proxy.Proxy.update_sfc_port_pair_group
+   .. automethod:: openstack.network.v2._proxy.Proxy.delete_sfc_port_pair_group
+   .. automethod:: openstack.network.v2._proxy.Proxy.get_sfc_port_pair_group
+   .. automethod:: openstack.network.v2._proxy.Proxy.find_sfc_port_pair_group
+   .. automethod:: openstack.network.v2._proxy.Proxy.sfc_port_pair_groups
+
+   .. automethod:: openstack.network.v2._proxy.Proxy.create_sfc_flow_classifier
+   .. automethod:: openstack.network.v2._proxy.Proxy.update_sfc_flow_classifier
+   .. automethod:: openstack.network.v2._proxy.Proxy.delete_sfc_flow_classifier
+   .. automethod:: openstack.network.v2._proxy.Proxy.get_sfc_flow_classifier
+   .. automethod:: openstack.network.v2._proxy.Proxy.find_sfc_flow_classifier
+   .. automethod:: openstack.network.v2._proxy.Proxy.sfc_flow_classifiers
+
+   .. automethod:: openstack.network.v2._proxy.Proxy.create_sfc_port_chain
+   .. automethod:: openstack.network.v2._proxy.Proxy.update_sfc_port_chain
+   .. automethod:: openstack.network.v2._proxy.Proxy.delete_sfc_port_chain
+   .. automethod:: openstack.network.v2._proxy.Proxy.get_sfc_port_chain
+   .. automethod:: openstack.network.v2._proxy.Proxy.find_sfc_port_chain
+   .. automethod:: openstack.network.v2._proxy.Proxy.sfc_port_chains

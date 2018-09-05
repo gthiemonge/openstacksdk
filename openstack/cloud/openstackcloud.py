@@ -12474,3 +12474,242 @@ class OpenStackCloud(_normalize.Normalizer):
             error_message="Error updating receiver {name}".format(
                 name=name_or_id))
         return self._get_and_munchify(key=None, data=data)
+
+    def list_sfc_port_pairs(self):
+        data = self._network_client.get(
+            "/sfc/port_pairs.json",
+            error_message="Error fetching port pair list")
+        return self._get_and_munchify('port_pairs', data)
+
+    def search_sfc_port_pairs(self, name_or_id=None, filters=None):
+        pps = self.list_sfc_port_pairs()
+        return _utils._filter_list(pps, name_or_id, filters)
+
+    def get_sfc_port_pair(self, name_or_id, filters=None):
+        return _utils._get_entity(self, 'sfc_port_pair', name_or_id, filters)
+
+    def get_sfc_port_pair_by_id(self, id):
+        data = self._network_client.get(
+            '/sfc/port_pairs/{id}'.format(id=id),
+            error_message="Error getting port pair with ID {id}".format(
+                id=id))
+        port_pair = self._get_and_munchify('port_pair', data)
+        return port_pair
+
+    @_utils.valid_kwargs('name', 'ingress', 'egress',
+                         'service_function_parameters')
+    def create_sfc_port_pair(self, **kwargs):
+        data = self._network_client.post(
+            '/sfc/port_pairs.json', json={'port_pair': kwargs},
+            error_message="Error creating port pair")
+        return self._get_and_munchify('port_pair', data)
+
+    @_utils.valid_kwargs('name', 'ingress', 'egress',
+                         'service_function_parameters')
+    def update_sfc_port_pair(self, name_or_id, **kwargs):
+        pp = self.get_sfc_port_pair(name_or_id)
+        if pp is None:
+            raise exc.OpenStackCloudException(
+                "failed to find port pair '{pp}'".format(pp=name_or_id))
+
+        data = self._network_client.put(
+            '/sfc/port_pairs/{pp_id}.json'.format(pp_id=pp['id']),
+            json={'port_pair': kwargs},
+            error_message="Error updating port pair {0}".format(name_or_id))
+        return self._get_and_munchify('port_pair', data)
+
+    def delete_sfc_port_pair(self, name_or_id):
+
+        pp = self.get_sfc_port_pair(name_or_id)
+        if pp is None:
+            self.log.debug("Port pair not found for deleting", name_or_id)
+            return False
+
+        self._network_client.delete(
+            "/sfc/port_pairs/{pp_id}.json".format(pp_id=pp['id']),
+            error_message="Error deleting port pair {0}".format(name_or_id))
+        return True
+
+    # SFC PORT PAIR GROUPS
+    def list_sfc_port_pair_groups(self):
+        data = self._network_client.get(
+            "/sfc/port_pair_groups.json",
+            error_message="Error fetching port pair group list")
+        return self._get_and_munchify('port_pair_groups', data)
+
+    def search_sfc_port_pair_groups(self, name_or_id=None, filters=None):
+        ppgs = self.list_sfc_port_pair_groups()
+        return _utils._filter_list(ppgs, name_or_id, filters)
+
+    def get_sfc_port_pair_group(self, name_or_id, filters=None):
+        return _utils._get_entity(self, 'sfc_port_pair_group', name_or_id,
+                                  filters)
+
+    def get_sfc_port_pair_group_by_id(self, id):
+        data = self._network_client.get(
+            '/sfc/port_pair_groups/{id}'.format(id=id),
+            error_message="Error getting port pair group with ID {id}".format(
+                id=id))
+        port_pair_group = self._get_and_munchify('port_pair_group', data)
+        return port_pair_group
+
+    @_utils.valid_kwargs('name', 'port_pairs', 'port_pair_group_parameters')
+    def create_sfc_port_pair_group(self, **kwargs):
+        data = self._network_client.post(
+            '/sfc/port_pair_groups.json', json={'port_pair_group': kwargs},
+            error_message="Error creating port pair group")
+        return self._get_and_munchify('port_pair_group', data)
+
+    @_utils.valid_kwargs('name', 'port_pairs', 'port_pair_group_parameters')
+    def update_sfc_port_pair_group(self, name_or_id, **kwargs):
+        ppg = self.get_sfc_port_pair_group(name_or_id)
+        if ppg is None:
+            raise exc.OpenStackCloudException(
+                "failed to find port pair group '{ppg}'".format(
+                    ppg=name_or_id))
+
+        data = self._network_client.put(
+            '/sfc/port_pair_groups/{ppg_id}.json'.format(ppg_id=ppg['id']),
+            json={'port_pair_group': kwargs},
+            error_message="Error updating port pair group {0}".format(
+                name_or_id))
+        return self._get_and_munchify('port_pair_group', data)
+
+    def delete_sfc_port_pair_group(self, name_or_id):
+
+        ppg = self.get_sfc_port_pair_group(name_or_id)
+        if ppg is None:
+            self.log.debug("Port pair group not found for deleting",
+                           name_or_id)
+            return False
+
+        self._network_client.delete(
+            "/sfc/port_pair_groups/{ppg_id}.json".format(ppg_id=ppg['id']),
+            error_message="Error deleting port pair group {0}".format(
+                name_or_id))
+        return True
+
+    # SFC FLOW CLASSIFIER
+    def list_sfc_flow_classifiers(self):
+        data = self._network_client.get(
+            "/sfc/flow_classifiers.json",
+            error_message="Error fetching flow classifier list")
+        return self._get_and_munchify('flow_classifiers', data)
+
+    def search_sfc_flow_classifiers(self, name_or_id=None, filters=None):
+        fcs = self.list_sfc_flow_classifiers()
+        return _utils._filter_list(fcs, name_or_id, filters)
+
+    def get_sfc_flow_classifier(self, name_or_id, filters=None):
+        return _utils._get_entity(self, 'sfc_flow_classifier', name_or_id,
+                                  filters)
+
+    def get_sfc_flow_classifier_by_id(self, id):
+        data = self._network_client.get(
+            '/sfc/flow_classifiers/{id}'.format(id=id),
+            error_message="Error getting flow classifier with ID {id}".format(
+                id=id))
+        flow_classifier = self._get_and_munchify('flow_classifier', data)
+        return flow_classifier
+
+    @_utils.valid_kwargs('name', 'ethertype', 'protocol',
+                         'source_port_range_min', 'source_port_range_max',
+                         'destination_port_range_min',
+                         'destination_port_range_max',
+                         'source_ip_prefix', 'destination_ip_prefix',
+                         'logical_source_port', 'logical_destination_port',
+                         'l7_parameters')
+    def create_sfc_flow_classifier(self, **kwargs):
+        data = self._network_client.post(
+            '/sfc/flow_classifiers.json', json={'flow_classifier': kwargs},
+            error_message="Error creating flow classifier")
+        return self._get_and_munchify('flow_classifier', data)
+
+    @_utils.valid_kwargs('name', 'ethertype', 'protocol',
+                         'source_port_range_min', 'source_port_range_max',
+                         'destination_port_range_min',
+                         'destination_port_range_max',
+                         'source_ip_prefix', 'destination_ip_prefix',
+                         'logical_source_port', 'logical_destination_port',
+                         'l7_parameters')
+    def update_sfc_flow_classifier(self, name_or_id, **kwargs):
+        fc = self.get_sfc_flow_classifier(name_or_id)
+        if fc is None:
+            raise exc.OpenStackCloudException(
+                "failed to find flow classifier '{fc}'".format(fc=name_or_id))
+
+        data = self._network_client.put(
+            '/sfc/flow_classifiers/{fc_id}.json'.format(fc_id=fc['id']),
+            json={'flow_classifier': kwargs},
+            error_message="Error updating flow classifier {0}".format(
+                name_or_id))
+        return self._get_and_munchify('flow_classifier', data)
+
+    def delete_sfc_flow_classifier(self, name_or_id):
+
+        fc = self.get_sfc_flow_classifier(name_or_id)
+        if fc is None:
+            self.log.debug("Flow classifier not found for deleting",
+                           name_or_id)
+            return False
+
+        self._network_client.delete(
+            "/sfc/flow_classifiers/{fc_id}.json".format(fc_id=fc['id']),
+            error_message="Error deleting flow classifier {0}".format(
+                name_or_id))
+        return True
+
+    def list_sfc_port_chains(self):
+        data = self._network_client.get(
+            "/sfc/port_chains.json",
+            error_message="Error fetching port chain list")
+        return self._get_and_munchify('port_chains', data)
+
+    def search_sfc_port_chains(self, name_or_id=None, filters=None):
+        pcs = self.list_sfc_port_chains()
+        return _utils._filter_list(pcs, name_or_id, filters)
+
+    def get_sfc_port_chain(self, name_or_id, filters=None):
+        return _utils._get_entity(self, 'sfc_port_chain', name_or_id, filters)
+
+    def get_sfc_port_chain_by_id(self, id):
+        data = self._network_client.get(
+            '/sfc/port_chains/{id}'.format(id=id),
+            error_message="Error getting port chain with ID {id}". format(
+                id=id))
+        port_chain = self._get_and_munchify('port_chain', data)
+        return port_chain
+
+    @_utils.valid_kwargs('name', 'port_pair_groups', 'flow_classifiers',
+                         'chain_parameters', 'chain_id')
+    def create_sfc_port_chain(self, **kwargs):
+        data = self._network_client.post(
+            '/sfc/port_chains.json', json={'port_chain': kwargs},
+            error_message="Error creating port chain")
+        return self._get_and_munchify('port_chain', data)
+
+    @_utils.valid_kwargs('name', 'port_pair_groups', 'flow_classifiers',
+                         'chain_parameters', 'chain_id')
+    def update_sfc_port_chain(self, name_or_id, **kwargs):
+        pc = self.get_sfc_port_chain(name_or_id)
+        if pc is None:
+            raise exc.OpenStackCloudException(
+                "failed to find port chain '{pc}'".format(pc=name_or_id))
+
+        data = self._network_client.put(
+            '/sfc/port_chains/{pc_id}.json'.format(pc_id=pc['id']),
+            json={'port_chain': kwargs},
+            error_message="Error updating port chain {0}".format(name_or_id))
+        return self._get_and_munchify('port_chain', data)
+
+    def delete_sfc_port_chain(self, name_or_id):
+
+        pc = self.get_sfc_port_chain(name_or_id)
+        if pc is None:
+            self.log.debug("Port chain not found for deleting", name_or_id)
+            return False
+
+        self._network_client.delete(
+            "/sfc/port_chains/{pc_id}.json".format(pc_id=pc['id']),
+            error_message="Error deleting port chain {0}".format(name_or_id))
+        return True
